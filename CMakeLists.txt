@@ -3,4 +3,4 @@ project(project)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(project main.cpp scan/scan.cpp scan/scan.h)
+add_executable(project main.cpp host-scan/host_scan.cpp host-scan/host_scan.h main.h)
