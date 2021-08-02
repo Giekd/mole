@@ -9,6 +9,8 @@
 #include <winsock2.h>                               // socket通信，系统头文件
 #include <iphlpapi.h>
 #include <windows.h>
+#include <winsvc.h>
+#include <errhandlingapi.h>
 
 #pragma comment(lib, "Iphlpapi.lib")
 
@@ -19,8 +21,8 @@ using namespace std;
 
 class HostScan {
 public:
-    void ScanNetInfo();
-    void ScanServiceInfo();
+    static void ScanNetInfo();
+    static void ScanServiceInfo();
     void ScanUserInfo();
     void ScanSystemInfo();
     void ScanDefenseInfo();
