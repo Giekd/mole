@@ -2,8 +2,11 @@
 
 using namespace std;
 
-int main() {
+int main() 
+{
     HostScan host_scan;
-    host_scan.ScanNetInfo();
+    // host_scan.ScanNetInfo();
+    host_scan.ScanServiceInfo();
+    cout << "hello world!" << endl;
     return 0;
 }

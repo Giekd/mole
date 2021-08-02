@@ -56,15 +56,52 @@ void HostScan::ScanNetInfo()
                 default:
                     break;
             }
+            cout<<"网卡MAC地址：";
+            for (DWORD i = 0; i < pIpAdapterInfo->AddressLength; i++)
+                if (i < pIpAdapterInfo->AddressLength-1)
+                {
+                    printf("%02X-", pIpAdapterInfo->Address[i]);
+                }
+                else
+                {
+                    printf("%02X\n", pIpAdapterInfo->Address[i]);
+                }
+                cout<<"网卡IP地址如下："<<endl;
+                //可能网卡有多IP,因此通过循环去判断
+                IP_ADDR_STRING *pIpAddrString =&(pIpAdapterInfo->IpAddressList);
+                do 
+                {
+                    cout<<"该网卡上的IP数量："<<++IPNumPerNetCard<<endl;
+                    cout<<"IP 地址："<<pIpAddrString->IpAddress.String<<endl;
+                    cout<<"子网地址："<<pIpAddrString->IpMask.String<<endl;
+                    cout<<"网关地址："<<pIpAdapterInfo->GatewayList.IpAddress.String<<endl;
+                    pIpAddrString=pIpAddrString->Next;
+                } while (pIpAddrString);
+                pIpAdapterInfo = pIpAdapterInfo->Next;
         }
     }
-
+    if(pIpAdapterInfo)
+    {
+        delete pIpAdapterInfo;
+    }
     cout << "[* INFO *] The end of scanning\n" << endl;
 }
 
 void HostScan::ScanServiceInfo()
 {
+    do
+    {
+        // 定义 SCMan 句柄，打开本地计算机的SERVICES_ACTIVE_DATABASE 数据库
+        SC_HANDLE SCMan = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS); 
+        if(SCMan == NULL)
+        {
+            cout << "OpenSCManager failed" << endl;
+            break;
+        }
 
+        LPENUM_SERVICE_STATUS SERVICE_STATUS;
+        
+    }
 }
 
 void HostScan::ScanUserInfo()

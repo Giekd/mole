@@ -8,8 +8,12 @@
 #include <iostream>
 #include <winsock2.h>                               // socket通信，系统头文件
 #include <iphlpapi.h>
+#include <windows.h>
 
 #pragma comment(lib, "Iphlpapi.lib")
+
+#define MAX_SERVICE_SIZE 1024 * 64
+#define MAX_QUERY_SIZE   1024 * 8
 
 using namespace std;
 
