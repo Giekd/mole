@@ -9,55 +9,55 @@ void HostScan::ScanNetInfo()
     cout << "[* INFO *] Scanning network information\n" << endl;
 
     PIP_ADAPTER_INFO pIpAdapterInfo;
-    pIpAdapterInfo = new IP_ADAPTER_INFO();    // PIP_ADAPTER_INFO½á¹¹ÌåÖ¸Õë´æ´¢±¾»úÍø¿¨ÐÅÏ¢
-    unsigned long stSize = sizeof(IP_ADAPTER_INFO);             // µÃµ½½á¹¹Ìå´óÐ¡£¬ÓÃÓÚGetAdapterInfo²ÎÊý
-    int nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);        // µÃµ½ÊÊÅäÆ÷ÐÅÏ¢£¬stSize×÷ÎªÊäÈëÁ¿£¬Ò²ÊÇÊä³öÁ¿
-    int netCardNum = 0;                                         // ¼ÇÂ¼Íø¿¨ÊýÁ¿
-    int IPNumPerNetCard = 0;                                    // ¼ÇÂ¼Ã¿ÕÅÍø¿¨µÄIPÊýÁ¿
+    pIpAdapterInfo = new IP_ADAPTER_INFO();    // PIP_ADAPTER_INFOç»“æž„ä½“æŒ‡é’ˆå­˜å‚¨æœ¬æœºç½‘å¡ä¿¡æ¯
+    unsigned long stSize = sizeof(IP_ADAPTER_INFO);             // å¾—åˆ°ç»“æž„ä½“å¤§å°ï¼Œç”¨äºŽGetAdapterInfoå‚æ•°
+    int nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);        // å¾—åˆ°é€‚é…å™¨ä¿¡æ¯ï¼ŒstSizeä½œä¸ºè¾“å…¥é‡ï¼Œä¹Ÿæ˜¯è¾“å‡ºé‡
+    int netCardNum = 0;                                         // è®°å½•ç½‘å¡æ•°é‡
+    int IPNumPerNetCard = 0;                                    // è®°å½•æ¯å¼ ç½‘å¡çš„IPæ•°é‡
 
     if(ERROR_BUFFER_OVERFLOW == nRel)
     {
-        // Èç¹û·µ»ØERROR_BUFFER_OVERFLOW£¬ËµÃ÷GetAdaptersInfo()²ÎÊý´«µÝµÄÄÚ´æ²»¹»£¬
-        // Í¬Ê±´«³öµÄstSize£¬±íÊ¾ÐèÒªµÄ¿Õ¼äµÄ´óÐ¡
-        delete pIpAdapterInfo;                                  // ÊÍ·ÅÔ­À´µÄÄÚ´æ¿Õ¼ä
-        pIpAdapterInfo = (PIP_ADAPTER_INFO)new BYTE[stSize];    // ÖØÐÂÉêÇëÄÚ´æ¿Õ¼äÓÃÀ´´æ´¢ËùÓÐÍø¿¨ÐÅÏ¢
-        nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);        // ÖØÐÂ»ñÈ¡ÊÊÅäÆ÷ÐÅÏ¢
+        // å¦‚æžœè¿”å›žERROR_BUFFER_OVERFLOWï¼Œè¯´æ˜ŽGetAdaptersInfo()å‚æ•°ä¼ é€’çš„å†…å­˜ä¸å¤Ÿï¼Œ
+        // åŒæ—¶ä¼ å‡ºçš„stSizeï¼Œè¡¨ç¤ºéœ€è¦çš„ç©ºé—´çš„å¤§å°
+        delete pIpAdapterInfo;                                  // é‡Šæ”¾åŽŸæ¥çš„å†…å­˜ç©ºé—´
+        pIpAdapterInfo = (PIP_ADAPTER_INFO)new BYTE[stSize];    // é‡æ–°ç”³è¯·å†…å­˜ç©ºé—´ç”¨æ¥å­˜å‚¨æ‰€æœ‰ç½‘å¡ä¿¡æ¯
+        nRel = GetAdaptersInfo(pIpAdapterInfo, &stSize);        // é‡æ–°èŽ·å–é€‚é…å™¨ä¿¡æ¯
     }
 
-    if(ERROR_SUCCESS == nRel)                                   // Êä³öÍø¿¨ÐÅÏ¢
+    if(ERROR_SUCCESS == nRel)                                   // è¾“å‡ºç½‘å¡ä¿¡æ¯
     {
         while (pIpAdapterInfo)
         {
-            cout << "Íø¿¨ÊýÁ¿£º" << ++netCardNum << endl;
-            cout << "Íø¿¨Ãû³Æ£º" << pIpAdapterInfo->AdapterName << endl;
-            cout << "Íø¿¨ÃèÊö£º" << pIpAdapterInfo->Description << endl;
+            cout << "ç½‘å¡æ•°é‡ï¼š" << ++netCardNum << endl;
+            cout << "ç½‘å¡åç§°ï¼š" << pIpAdapterInfo->AdapterName << endl;
+            cout << "ç½‘å¡æè¿°ï¼š" << pIpAdapterInfo->Description << endl;
             switch (pIpAdapterInfo->Type) {
                 case MIB_IF_TYPE_OTHER:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "OTHER" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "OTHER" << endl;
                     break;
                 case MIB_IF_TYPE_ETHERNET:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "ETHERNET" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "ETHERNET" << endl;
                     break;
                 case MIB_IF_TYPE_TOKENRING:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "TOKENRING" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "TOKENRING" << endl;
                     break;
                 case MIB_IF_TYPE_FDDI:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "FDDI" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "FDDI" << endl;
                     break;
                 case MIB_IF_TYPE_PPP:
                     printf("PP\n");
-                    cout << "Íø¿¨ÀàÐÍ£º" << "PPP" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "PPP" << endl;
                     break;
                 case MIB_IF_TYPE_LOOPBACK:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "LOOPBACK" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "LOOPBACK" << endl;
                     break;
                 case MIB_IF_TYPE_SLIP:
-                    cout << "Íø¿¨ÀàÐÍ£º" << "SLIP" << endl;
+                    cout << "ç½‘å¡ç±»åž‹ï¼š" << "SLIP" << endl;
                     break;
                 default:
                     break;
             }
-            cout<<"Íø¿¨MACµØÖ·£º";
+            cout<<"ç½‘å¡MACåœ°å€ï¼š";
             for (DWORD i = 0; i < pIpAdapterInfo->AddressLength; i++)
                 if (i < pIpAdapterInfo->AddressLength-1)
                 {
@@ -67,15 +67,15 @@ void HostScan::ScanNetInfo()
                 {
                     printf("%02X\n", pIpAdapterInfo->Address[i]);
                 }
-            cout << "Íø¿¨IPµØÖ·ÈçÏÂ£º" << endl;
-            //¿ÉÄÜÍø¿¨ÓÐ¶àIP,Òò´ËÍ¨¹ýÑ­»·È¥ÅÐ¶Ï
+            cout << "ç½‘å¡IPåœ°å€å¦‚ä¸‹ï¼š" << endl;
+            //å¯èƒ½ç½‘å¡æœ‰å¤šIP,å› æ­¤é€šè¿‡å¾ªçŽ¯åŽ»åˆ¤æ–­
             IP_ADDR_STRING *pIpAddrString =&(pIpAdapterInfo->IpAddressList);
             do
             {
-                cout<<"¸ÃÍø¿¨ÉÏµÄIPÊýÁ¿£º"<<++IPNumPerNetCard<<endl;
-                cout<<"IP µØÖ·£º"<<pIpAddrString->IpAddress.String<<endl;
-                cout<<"×ÓÍøµØÖ·£º"<<pIpAddrString->IpMask.String<<endl;
-                cout<<"Íø¹ØµØÖ·£º"<<pIpAdapterInfo->GatewayList.IpAddress.String<<endl;
+                cout<<"è¯¥ç½‘å¡ä¸Šçš„IPæ•°é‡ï¼š"<<++IPNumPerNetCard<<endl;
+                cout<<"IP åœ°å€ï¼š"<<pIpAddrString->IpAddress.String<<endl;
+                cout<<"å­ç½‘åœ°å€ï¼š"<<pIpAddrString->IpMask.String<<endl;
+                cout<<"ç½‘å…³åœ°å€ï¼š"<<pIpAdapterInfo->GatewayList.IpAddress.String<<endl;
                 pIpAddrString=pIpAddrString->Next;
             } while (pIpAddrString);
             pIpAdapterInfo = pIpAdapterInfo->Next;
@@ -90,9 +90,10 @@ void HostScan::ScanNetInfo()
 
 void HostScan::ScanServiceInfo()
 {
+    cout << "[* INFO *] Scanning service information\n" << endl;
     do
     {
-        // ¶¨Òå SCMan ¾ä±ú£¬´ò¿ª±¾µØE¼ÆËã»úµÄSERVICES_ACTIV_DATABASE Êý¾Ý¿â
+        // å®šä¹‰ SCMan å¥æŸ„ï¼Œæ‰“å¼€æœ¬åœ°Eè®¡ç®—æœºçš„SERVICES_ACTIV_DATABASE æ•°æ®åº“
         SC_HANDLE SCMan = OpenSCManager(nullptr, nullptr, SC_MANAGER_ALL_ACCESS);
         if(SCMan == nullptr)
         {
@@ -102,24 +103,24 @@ void HostScan::ScanServiceInfo()
 
         LPENUM_SERVICE_STATUS serviceStatus;                    //
         DWORD cbBytesNeeded = 0;
-        DWORD servicesReturned = 0;                             // ·þÎñ·µ»Ø
-        DWORD resumeHandle = 0;                                 // »Ö¸´´¦Àí
+        DWORD servicesReturned = 0;                             // æœåŠ¡è¿”å›ž
+        DWORD resumeHandle = 0;                                 // æ¢å¤å¤„ç†
 
-        // ´Ó¶ÑÖÐ·ÖÅäMAX_SERVICE_SIZE´óÐ¡ÄÚ´æ£¬·µ»ØÄÚ´æ¶ÔÏóµÄÖ¸Õë£¬²¢½«ÄÚ´æÄÚÈÝ³õÊ¼»¯ÎªÁã
+        // ä»Žå †ä¸­åˆ†é…MAX_SERVICE_SIZEå¤§å°å†…å­˜ï¼Œè¿”å›žå†…å­˜å¯¹è±¡çš„æŒ‡é’ˆï¼Œå¹¶å°†å†…å­˜å†…å®¹åˆå§‹åŒ–ä¸ºé›¶
         serviceStatus = (LPENUM_SERVICE_STATUS)LocalAlloc(LPTR, MAX_SERVICE_SIZE);
 
         BOOL ESS = EnumServicesStatus(
-                SCMan,                                          // ¾ä±ú
-                SERVICE_WIN32,                                  // ·þÎñÀàÐÍ
-                SERVICE_STATE_ALL,                              // ·þÎñ×´Ì¬
-                (LPENUM_SERVICE_STATUS)serviceStatus,           // Êä³ö²ÎÊý£¬ÏµÍ³·þÎñµÄ½á¹¹
-                MAX_SERVICE_SIZE,                               // ½á¹¹µÄ´óÐ¡
-                &cbBytesNeeded,                                 // Êä³ö²ÎÊý£¬½ÓÊÕ·µ»ØËùÐèµÄ·þÎñ
-                &servicesReturned,                              // Êä³ö²ÎÊý£¬½ÓÊÕ·µ»Ø·þÎñµÄÊýÁ¿
-                &resumeHandle                                   // ÊäÈëÊä³ö²ÎÊý£¬µÚÒ»´Îµ÷ÓÃ±ØÐëÎª0
+                SCMan,                                          // å¥æŸ„
+                SERVICE_WIN32,                                  // æœåŠ¡ç±»åž‹
+                SERVICE_STATE_ALL,                              // æœåŠ¡çŠ¶æ€
+                (LPENUM_SERVICE_STATUS)serviceStatus,           // è¾“å‡ºå‚æ•°ï¼Œç³»ç»ŸæœåŠ¡çš„ç»“æž„
+                MAX_SERVICE_SIZE,                               // ç»“æž„çš„å¤§å°
+                &cbBytesNeeded,                                 // è¾“å‡ºå‚æ•°ï¼ŒæŽ¥æ”¶è¿”å›žæ‰€éœ€çš„æœåŠ¡
+                &servicesReturned,                              // è¾“å‡ºå‚æ•°ï¼ŒæŽ¥æ”¶è¿”å›žæœåŠ¡çš„æ•°é‡
+                &resumeHandle                                   // è¾“å…¥è¾“å‡ºå‚æ•°ï¼Œç¬¬ä¸€æ¬¡è°ƒç”¨å¿…é¡»ä¸º0
                 );
 
-        if(ESS == 0)                                            // ÎÞÄÚ´æ¶ÔÏó
+        if(ESS == 0)                                            // æ— å†…å­˜å¯¹è±¡
         {
             cout << "EnumServicesStatus Failed." << endl;
             break;
@@ -153,13 +154,13 @@ void HostScan::ScanServiceInfo()
                     break;
             }
 
-            LPQUERY_SERVICE_CONFIG lpServiceConfig = nullptr;      // ·þÎñÏêÏ¸ÐÅÏ¢½á¹¹
-            SC_HANDLE serviceCurren = nullptr;                     // µ±Ç°µÄ·þÎñ¾ä±ú
-            // ´ò¿ªÏÖÓÐ·þÎñ
-            serviceCurren = OpenService(SCMan,                  // ·þÎñ¿ØÖÆ¹ÜÀíÆ÷Êý¾Ý¿â¾ä±ú
-                                        serviceStatus[i].lpServiceName, // ·þÎñµÄÃû³Æ
-                                        SERVICE_QUERY_CONFIG);  // ¶Ô·þÎñµÄ·ÃÎÊ
-            // ´Ó¶ÑÖÐ·ÖÅäMAX_QUERY_SIZE×Ö½Ú¡£·µ»ØÖ¸ÏòÄÚ´æ¶ÔÏóµÄÖ¸Õë£¬ÇÒ½«ÄÚ´æÄÚÈÝ³õÊ¼»¯ÎªÁã
+            LPQUERY_SERVICE_CONFIG lpServiceConfig = nullptr;      // æœåŠ¡è¯¦ç»†ä¿¡æ¯ç»“æž„
+            SC_HANDLE serviceCurren = nullptr;                     // å½“å‰çš„æœåŠ¡å¥æŸ„
+            // æ‰“å¼€çŽ°æœ‰æœåŠ¡
+            serviceCurren = OpenService(SCMan,                  // æœåŠ¡æŽ§åˆ¶ç®¡ç†å™¨æ•°æ®åº“å¥æŸ„
+                                        serviceStatus[i].lpServiceName, // æœåŠ¡çš„åç§°
+                                        SERVICE_QUERY_CONFIG);  // å¯¹æœåŠ¡çš„è®¿é—®
+            // ä»Žå †ä¸­åˆ†é…MAX_QUERY_SIZEå­—èŠ‚ã€‚è¿”å›žæŒ‡å‘å†…å­˜å¯¹è±¡çš„æŒ‡é’ˆï¼Œä¸”å°†å†…å­˜å†…å®¹åˆå§‹åŒ–ä¸ºé›¶
             lpServiceConfig = (LPQUERY_SERVICE_CONFIG)LocalAlloc(LPTR, MAX_QUERY_SIZE);
 
             if(0 == QueryServiceConfig(serviceCurren,
@@ -168,15 +169,28 @@ void HostScan::ScanServiceInfo()
                                           &resumeHandle))
             {
                 cout << "QueryServiceConfig Failed." << endl;
-                CloseServiceHandle(serviceCurren);              // ¹Ø±Õ·þÎñ¾ä±ú
+                CloseServiceHandle(serviceCurren);              // å…³é—­æœåŠ¡å¥æŸ„
             }
         }
     }while(FALSE);
+    cout << "[* INFO *] The end of scanning\n" << endl;
 }
 
 void HostScan::ScanUserInfo()
 {
+    cout << "[* INFO *] Scanning user information\n" << endl;
 
+    char userName[UNLEN+1];
+    DWORD userNameLen = UNLEN + 1;
+    bool returnValue;
+    returnValue = GetUserName((TCHAR*)userName, &userNameLen);
+    if(returnValue == 0)
+    {
+        cout << "Description Failed to obtain user information" << endl;
+    }
+    cout << "user : " << userName << endl;
+
+    cout << "[* INFO *] The end of scanning\n" << endl;
 }
 
 void HostScan::ScanSystemInfo()

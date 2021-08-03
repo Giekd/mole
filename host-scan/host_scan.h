@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <winsvc.h>
 #include <errhandlingapi.h>
+#include <winbase.h>
 
 #pragma comment(lib, "Iphlpapi.lib")
 
