@@ -89,4 +89,11 @@ typora-copy-images-to: image
     - vscode终端只显示mac地址的bug
       - 文件编码为：65001（UTF-8） 终端编码为：936（GBK），输出时有冲突，解决方案：设置输出终端为powershell，powershell的编码为936
     - 运行`host_scan.ScanServiceInfo()`，没有内容的bug
-      - 
+      - 需要提权或通过UAC的方式获取权限
+
+---
+
+#### 工作时间：2021-08-04
+
+- 工作内容
+  - 

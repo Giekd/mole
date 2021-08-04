@@ -17,6 +17,7 @@
 
 #define MAX_SERVICE_SIZE 1024 * 64
 #define MAX_QUERY_SIZE   1024 * 8
+#define INFO_BUFFER_SIZE 32767
 
 using namespace std;
 

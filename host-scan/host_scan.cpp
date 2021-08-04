@@ -154,8 +154,8 @@ void HostScan::ScanServiceInfo()
                     break;
             }
 
-            LPQUERY_SERVICE_CONFIG lpServiceConfig = nullptr;      // 服务详细信息结构
-            SC_HANDLE serviceCurren = nullptr;                     // 当前的服务句柄
+            LPQUERY_SERVICE_CONFIG lpServiceConfig = nullptr;   // 服务详细信息结构
+            SC_HANDLE serviceCurren = nullptr;                  // 当前的服务句柄
             // 打开现有服务
             serviceCurren = OpenService(SCMan,                  // 服务控制管理器数据库句柄
                                         serviceStatus[i].lpServiceName, // 服务的名称
@@ -180,21 +180,45 @@ void HostScan::ScanUserInfo()
 {
     cout << "[* INFO *] Scanning user information\n" << endl;
 
-    char userName[UNLEN+1];
-    DWORD userNameLen = UNLEN + 1;
-    bool returnValue;
-    returnValue = GetUserName((TCHAR*)userName, &userNameLen);
-    if(returnValue == 0)
+    DWORD i;
+    TCHAR infoBuf[INFO_BUFFER_SIZE];                            // 保存
+    DWORD bufCharCount = INFO_BUFFER_SIZE;                      // 保存
+    bool returnValue;                                           // 保存返回值
+
+    returnValue = GetUserName(infoBuf, &bufCharCount);
+    if(returnValue == 0)                                        // 获取当前用户名
     {
         cout << "Description Failed to obtain user information" << endl;
     }
-    cout << "user : " << userName << endl;
+    else if(returnValue == 1)
+    {
+        cout << "user : " << infoBuf << endl;
+    }
+    
 
     cout << "[* INFO *] The end of scanning\n" << endl;
 }
 
 void HostScan::ScanSystemInfo()
 {
+    cout << "[* INFO *] Scanning system information\n" << endl;
+
+    DWORD i;
+    TCHAR infoBuf[INFO_BUFFER_SIZE];                            // 保存
+    DWORD bufCharCount = INFO_BUFFER_SIZE;                      // 保存
+    bool returnValue;                                           // 保存返回值
+
+    returnValue = GetUserName(infoBuf, &bufCharCount);
+    if(returnValue == 0)                                        // 获取当前用户名
+    {
+        cout << "Description Failed to obtain user information" << endl;
+    }
+    else if(returnValue == 1)
+    {
+        cout << "user : " << infoBuf << endl;
+    }
+
+    cout << "[* INFO *] The end of scanning\n" << endl;
 
 }
 
