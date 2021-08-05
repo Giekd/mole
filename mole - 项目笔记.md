@@ -1,5 +1,6 @@
 ---
 typora-copy-images-to: image
+typora-root-url: image
 ---
 
 ---
@@ -16,6 +17,7 @@ typora-copy-images-to: image
             - MAC地址
             - 网关地址
             - 能否出网
+            
          2. 服务信息
             - 服务名称
             - 显示名称
@@ -23,13 +25,34 @@ typora-copy-images-to: image
             - 启动类型
             - 依存关系
             - 可执行文件的路径
+            
          3. 用户信息
             - 用户名
             - 组名
             - 安全等级
             - 用户权限
             - 在线用户
+            
          4. 系统信息
+
+            - 命令`systeminfo`包含的内容（大部分重复了），如图：
+
+              - <img src="E:\items\mole\image\image-20210805141456673.png" style="zoom:200%;" />
+
+              - <img src="/image-20210805141737901.png" alt="image-20210805141737901" style="zoom:200%;" />
+
+            - 安装的软件，及其它的版本、路径等（绿色免安装的，暂时无法获取）
+
+            - 查询当前的进程列表、PID、
+
+            - 查询任务计划
+
+            - 查询本机共享列表
+
+            - 查询路由表
+
+            - 查询驱动情况
+
          5. 防御策略
        - 域内信息
          1. 判断是否有域
@@ -96,4 +119,32 @@ typora-copy-images-to: image
 #### 工作时间：2021-08-04
 
 - 工作内容
-  - 
+  - 无
+
+---
+
+#### 工作时间：2021-08-05
+
+- 工作内容
+
+  - 获取系统目录
+
+  - 解决警告
+
+    - 警告内容：`ISO C++ forbids converting a string constant to 'TCHAR*' {aka 'char*'} [-Wwrite-strings]`
+    - 参考文章：[warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]](https://www.programmersought.com/article/5604542845/)
+    - 解决办法：将`TCHAR* enVarStrings[]`改为`TCHAR enVarStrings[][30]`
+
+  - 解决错误
+
+    - 错误内容：`multiple definition of xxx`
+    - 参考文章：[问题解决： multiple definition of XXX](https://blog.csdn.net/liyuefeilong/article/details/44071053)
+
+    - 解决办法：
+      - 在.c中定义，在.h中加`extern`声明
+
+  - 在注册表中获取已安装的软件
+
+    - 参考文章：[C++ 获取已安装程序笔记](https://www.ascotbe.com/2019/11/14/C++GetInstalledProgramNotes/)
+    - 参考文章：[C++访问注册表获取已安装软件信息列表示例代码](https://www.jb51.net/article/43663.htm)
+

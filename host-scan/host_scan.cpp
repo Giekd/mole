@@ -4,6 +4,15 @@
 
 #include "host_scan.h"
 
+TCHAR envVarStrings[][30] = 
+{
+    TEXT("OS         = %OS%"),
+    TEXT("PATH       = %PATH%"),
+    TEXT("HOMEPATH   = %HOMEPATH%"),
+    TEXT("TEMP       = %TEMP%")
+};
+
+
 void HostScan::ScanNetInfo()
 {
     cout << "[* INFO *] Scanning network information\n" << endl;
@@ -99,7 +108,7 @@ void HostScan::ScanServiceInfo()
         {
             cout << "OpenSCManager failed" << endl;
             break;
-        }
+        } 
 
         LPENUM_SERVICE_STATUS serviceStatus;                    //
         DWORD cbBytesNeeded = 0;
@@ -185,16 +194,15 @@ void HostScan::ScanUserInfo()
     DWORD bufCharCount = INFO_BUFFER_SIZE;                      // 保存
     bool returnValue;                                           // 保存返回值
 
-    returnValue = GetUserName(infoBuf, &bufCharCount);
-    if(returnValue == 0)                                        // 获取当前用户名
+    returnValue = GetUserName(infoBuf, &bufCharCount);          // 获取当前用户名
+    if(returnValue == 0)                                        
     {
-        cout << "Description Failed to obtain user information" << endl;
+        cout << "Description Failed to obtain user information\n" << endl;
     }
     else if(returnValue == 1)
     {
         cout << "user : " << infoBuf << endl;
     }
-    
 
     cout << "[* INFO *] The end of scanning\n" << endl;
 }
@@ -208,21 +216,82 @@ void HostScan::ScanSystemInfo()
     DWORD bufCharCount = INFO_BUFFER_SIZE;                      // 保存
     bool returnValue;                                           // 保存返回值
 
-    returnValue = GetUserName(infoBuf, &bufCharCount);
-    if(returnValue == 0)                                        // 获取当前用户名
+    returnValue = GetComputerName(infoBuf, &bufCharCount);      // 获取当前计算机名
+    if(returnValue == 0)                                        
     {
-        cout << "Description Failed to obtain user information" << endl;
+        cout << "Description Failed to obtain system information" << endl;
     }
     else if(returnValue == 1)
     {
-        cout << "user : " << infoBuf << endl;
+        cout << "Computer Name : " << infoBuf << endl;
     }
+
+    returnValue = GetSystemDirectory(infoBuf, INFO_BUFFER_SIZE);   // 获取系统目录
+    if(returnValue == 0)
+    {
+        cout << "Description Failed to obtain user information\n" << endl;
+    }
+    else
+    {
+        cout << "Windows directory : " << infoBuf << endl;
+    }
+
+    for(i = 0; i < ENV_VAR_STRING_COUNT; ++i)
+    {
+        bufCharCount = ExpandEnvironmentStrings(envVarStrings[i], infoBuf, INFO_BUFFER_SIZE);
+        if(bufCharCount > INFO_BUFFER_SIZE)
+            cout << "Buffer too small to expand : " << envVarStrings[i] <<endl;
+        else if(!bufCharCount)
+            //printError(TEXT("ExpandEnvironmentStrings"));
+            cout << ExpandEnvironmentStrings << endl;
+        else 
+            cout << "Environment variables : " << infoBuf << endl;
+    }
+
+
 
     cout << "[* INFO *] The end of scanning\n" << endl;
 
 }
 
+void ScanSoftwareInfo()
+{
+    struct SoftInfo
+    {
+        CString m_strSoftName;                                  // 软件名
+        CString m_strSoftVersion;                               // 软件版本号
+        CString m_strInstallLocation;                           // 软件安装目录
+        CString m_strPublisher;                                 // 软件发布厂商
+        CString m_strMainProPath;                               // 主程序所在完整路径
+        CString m_strUninstallPth;                              // 卸载exe所在完整路径
+    };
+}
+
 void HostScan::ScanDefenseInfo()
 {
 
+}
+
+void printError( TCHAR* msg )
+{
+  DWORD eNum;
+  TCHAR sysMsg[256];
+  TCHAR* p;
+
+  eNum = GetLastError( );
+  FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM | 
+         FORMAT_MESSAGE_IGNORE_INSERTS,
+         NULL, eNum,
+         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+         sysMsg, 256, NULL );
+
+  // Trim the end of the line and terminate it with a null
+  p = sysMsg;
+  while( ( *p > 31 ) || ( *p == 9 ) )
+    ++p;
+  do { *p-- = 0; } while( ( p >= sysMsg ) &&
+                          ( ( *p == '.' ) || ( *p < 33 ) ) );
+
+  // Display the message
+  _tprintf( TEXT("\n\t%s failed with error %d (%s)"), msg, eNum, sysMsg );
 }

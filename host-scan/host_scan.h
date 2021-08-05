@@ -12,22 +12,33 @@
 #include <winsvc.h>
 #include <errhandlingapi.h>
 #include <winbase.h>
+#include <tchar.h>
+#include <stdio.h>
+#include <processenv.h>
+#include <vector>
 
 #pragma comment(lib, "Iphlpapi.lib")
+#pragma once
 
-#define MAX_SERVICE_SIZE 1024 * 64
-#define MAX_QUERY_SIZE   1024 * 8
-#define INFO_BUFFER_SIZE 32767
+#define MAX_SERVICE_SIZE        1024 * 64
+#define MAX_QUERY_SIZE          1024 * 8
+#define INFO_BUFFER_SIZE        32767
+#define ENV_VAR_STRING_COUNT    (sizeof(envVarStrings)/sizeof(TCHAR*))
+// #define ENV_VAR_STRING_COUNT    4                           //(sizeof(envVarStrings)/sizeof(TCHAR*))
 
 using namespace std;
 
-class HostScan {
+extern TCHAR envVarStrings[][30];
+
+class HostScan 
+{
 public:
     static void ScanNetInfo();
     static void ScanServiceInfo();
-    void ScanUserInfo();
-    void ScanSystemInfo();
+    static void ScanUserInfo();
+    static void ScanSystemInfo();
     void ScanDefenseInfo();
+    void printError( TCHAR* msg );
 };
 
 
